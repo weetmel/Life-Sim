@@ -7,7 +7,7 @@ import Sustenance
 
 pygame.init()
 
-WIDTH, HEIGHT = 800, 600
+WIDTH, HEIGHT = 1000, 1000
 FPS = 60
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -17,7 +17,7 @@ clock = pygame.time.Clock()
 
 
 # Generate creatures
-creatures = [Creature_Class.Creature(WIDTH, HEIGHT) for _ in range(2)]
+creatures = [Creature_Class.Creature(False, width=WIDTH, height=HEIGHT) for _ in range(10)]
 for creature in creatures:
     print(creature.genes, creature.x, creature.y)
 
@@ -42,6 +42,11 @@ while running:
         c.needs_counter()
         c.behavior_controller(water_sources, food_sources)
         c.see_others(creatures)
+        if c.offspring:
+            creatures.append(c.offspring)
+            print(f'baby made: maturity: {c.offspring.maturity_level} delta time: {delta_time}')
+            c.offspring = None
+
 
     screen.fill((30, 30, 30))
 
