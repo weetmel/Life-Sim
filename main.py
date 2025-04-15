@@ -7,7 +7,7 @@ import Sustenance
 
 pygame.init()
 
-WIDTH, HEIGHT = 1600, 1200
+WIDTH, HEIGHT = 800, 600
 FPS = 60
 
 screen = pygame.display.set_mode((WIDTH, HEIGHT))
@@ -17,14 +17,12 @@ clock = pygame.time.Clock()
 
 
 # Generate creatures
-creatures = [Creature_Class.Creature(WIDTH, HEIGHT) for _ in range(10)]
+creatures = [Creature_Class.Creature(WIDTH, HEIGHT) for _ in range(2)]
 for creature in creatures:
     print(creature.genes, creature.x, creature.y)
 
 # Make water and food sources
 water_sources = Sustenance.generate_water(WIDTH, HEIGHT)
-for pos, size, color, tag in water_sources:
-    print(pos)
 food_sources = Sustenance.generate_food(WIDTH, HEIGHT)
 
 # Main loop
@@ -43,6 +41,7 @@ while running:
         c.lifetime_counter()
         c.needs_counter()
         c.behavior_controller(water_sources, food_sources)
+        c.see_others(creatures)
 
     screen.fill((30, 30, 30))
 
